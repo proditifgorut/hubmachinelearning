@@ -19,7 +19,7 @@ const DataTable = ({ data, rowsPerPage = 5 }) => {
   }, [data, currentPage, rowsPerPage]);
 
   if (!data || data.length === 0) {
-    return <p className="text-gray-400 text-center py-4">No data to display.</p>;
+    return <p className="text-gray-400 text-center py-4">Tidak ada data untuk ditampilkan.</p>;
   }
 
   const handleNext = () => {
@@ -58,13 +58,13 @@ const DataTable = ({ data, rowsPerPage = 5 }) => {
       </div>
       <div className="flex items-center justify-between mt-4">
         <Button onClick={handlePrev} disabled={currentPage === 1} variant="secondary">
-          Previous
+          Sebelumnya
         </Button>
         <span className="text-sm text-gray-400">
-          Page {currentPage} of {totalPages}
+          Halaman {currentPage} dari {totalPages}
         </span>
         <Button onClick={handleNext} disabled={currentPage === totalPages} variant="secondary">
-          Next
+          Berikutnya
         </Button>
       </div>
     </div>

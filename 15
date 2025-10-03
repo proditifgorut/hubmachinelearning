@@ -3,13 +3,13 @@ import { NavLink } from 'react-router-dom';
 import { Home, Upload, Filter, BrainCircuit, Play, BarChart3, FileText, Bot } from 'lucide-react';
 
 const navItems = [
-  { to: '/dashboard', icon: Home, label: 'Dashboard' },
-  { to: '/dashboard/upload', icon: Upload, label: 'Upload Data' },
-  { to: '/dashboard/preprocess', icon: Filter, label: 'Preprocessing' },
-  { to: '/dashboard/algorithms', icon: BrainCircuit, label: 'Algorithms' },
-  { to: '/dashboard/training', icon: Play, label: 'Training' },
-  { to: '/dashboard/results', icon: BarChart3, label: 'Results' },
-  { to: '/dashboard/cases', icon: FileText, label: 'Study Cases' },
+  { to: '/dashboard', icon: Home, label: 'Dasbor' },
+  { to: '/dashboard/upload', icon: Upload, label: 'Unggah Data' },
+  { to: '/dashboard/preprocess', icon: Filter, label: 'Pra-pemrosesan' },
+  { to: '/dashboard/algorithms', icon: BrainCircuit, label: 'Algoritma' },
+  { to: '/dashboard/training', icon: Play, label: 'Pelatihan' },
+  { to: '/dashboard/results', icon: BarChart3, label: 'Hasil' },
+  { to: '/dashboard/cases', icon: FileText, label: 'Studi Kasus' },
 ];
 
 const Sidebar = () => {

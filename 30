@@ -21,7 +21,7 @@ const ConfusionMatrix = ({ data }) => {
     <div className="flex items-center justify-center">
       <div className="flex">
         <div className="flex flex-col justify-around text-sm text-gray-400 font-semibold pr-2 -mt-6">
-          <span className="transform -rotate-90">Predicted</span>
+          <span className="transform -rotate-90">Prediksi</span>
         </div>
         <div>
           <table className="border-collapse">
@@ -52,7 +52,7 @@ const ConfusionMatrix = ({ data }) => {
             </tbody>
           </table>
           <div className="text-center text-sm text-gray-400 font-semibold pt-2">
-            Actual
+            Aktual
           </div>
         </div>
       </div>

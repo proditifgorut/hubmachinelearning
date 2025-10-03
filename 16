@@ -20,19 +20,19 @@ const StatCard = ({ icon, title, value, description }) => {
 const DashboardPage = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold text-white mb-2">Welcome Back!</h1>
-      <p className="text-gray-400 mb-8">Here's a summary of your machine learning activities.</p>
+      <h1 className="text-3xl font-bold text-white mb-2">Selamat Datang Kembali!</h1>
+      <p className="text-gray-400 mb-8">Berikut ringkasan aktivitas machine learning Anda.</p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard icon={Database} title="Datasets Analyzed" value="14" description="+2 this week" />
-        <StatCard icon={Cpu} title="Models Trained" value="32" description="Linear Regression is popular" />
-        <StatCard icon={TestTube2} title="Experiments Run" value="128" description="7 active experiments" />
-        <StatCard icon={BarChartHorizontal} title="Avg. Accuracy" value="92.1%" description="Up by 1.5% from last month" />
+        <StatCard icon={Database} title="Dataset Dianalisis" value="14" description="+2 minggu ini" />
+        <StatCard icon={Cpu} title="Model Dilatih" value="32" description="Regresi Linier populer" />
+        <StatCard icon={TestTube2} title="Eksperimen Dijalankan" value="128" description="7 eksperimen aktif" />
+        <StatCard icon={BarChartHorizontal} title="Rata-rata Akurasi" value="92.1%" description="Naik 1.5% dari bulan lalu" />
       </div>
 
       <div className="mt-10 bg-gray-800/50 border border-gray-700 rounded-xl p-6">
-        <h2 className="text-xl font-semibold text-white mb-4">Recent Activity</h2>
-        <p className="text-gray-400">Activity feed will be displayed here.</p>
+        <h2 className="text-xl font-semibold text-white mb-4">Aktivitas Terbaru</h2>
+        <p className="text-gray-400">Umpan aktivitas akan ditampilkan di sini.</p>
       </div>
     </div>
   );

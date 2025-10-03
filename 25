@@ -59,56 +59,56 @@ const PreprocessPage = () => {
   }, [activeDataset.data, activeVis, visColumn1]);
 
   const handleApplyPreprocessing = () => {
-    alert('This is a UI demonstration. In a real application, this would send the selected options to the backend to process the data.');
+    alert('Ini adalah demonstrasi UI. Dalam aplikasi nyata, ini akan mengirimkan opsi yang dipilih ke backend untuk memproses data.');
   };
 
   const visOptions = [
     { id: 'histogram', label: 'Histogram', icon: BarChart2 },
-    { id: 'scatter', label: 'Scatter Plot', icon: Dot },
-    { id: 'heatmap', label: 'Heatmap', icon: DraftingCompass },
+    { id: 'scatter', label: 'Plot Sebar', icon: Dot },
+    { id: 'heatmap', label: 'Peta Panas', icon: DraftingCompass },
   ];
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-white mb-6">Preprocessing & Visualization</h1>
+      <h1 className="text-3xl font-bold text-white mb-6">Pra-pemrosesan & Visualisasi</h1>
       <div className="space-y-8">
         <Card>
-          <h2 className="text-xl font-semibold text-white mb-4">Select Dataset</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Pilih Dataset</h2>
           <Select value={activeDataset.name} onChange={(e) => setActiveDataset(availableDatasets.find(d => d.name === e.target.value))}>
             {availableDatasets.map(d => <option key={d.name}>{d.name}</option>)}
           </Select>
         </Card>
 
         <Card>
-          <h2 className="text-xl font-semibold text-white mb-4">Data Preview</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Pratinjau Data</h2>
           <DataTable data={activeDataset.data} />
         </Card>
 
         <Card>
-          <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><SlidersHorizontal className="mr-3 text-cyan-400"/>Preprocessing Options</h2>
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><SlidersHorizontal className="mr-3 text-cyan-400"/>Opsi Pra-pemrosesan</h2>
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Checkbox name="missing_values" label="Handle Missing Values" />
-                <Select className="mt-2" disabled><option>Drop Rows</option></Select>
+                <Checkbox name="missing_values" label="Tangani Nilai yang Hilang" />
+                <Select className="mt-2" disabled><option>Hapus Baris</option></Select>
               </div>
               <div>
-                <Checkbox name="feature_scaling" label="Feature Scaling" />
+                <Checkbox name="feature_scaling" label="Penskalaan Fitur" />
                 <Select className="mt-2" disabled><option>Standard Scaler</option></Select>
               </div>
             </div>
             <div>
-              <Checkbox name="encoding" label="Encode Categorical Features" />
+              <Checkbox name="encoding" label="Enkode Fitur Kategoris" />
               <Select className="mt-2" disabled><option>One-Hot Encoding</option></Select>
             </div>
           </div>
           <div className="mt-6 border-t border-gray-700 pt-6 flex justify-end">
-            <Button onClick={handleApplyPreprocessing}>Apply Preprocessing</Button>
+            <Button onClick={handleApplyPreprocessing}>Terapkan Pra-pemrosesan</Button>
           </div>
         </Card>
 
         <Card>
-          <h2 className="text-xl font-semibold text-white mb-4">Data Visualization</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Visualisasi Data</h2>
           <div className="flex flex-wrap gap-2 mb-6">
             {visOptions.map(({ id, label, icon: Icon }) => (
               <Button key={id} onClick={() => setActiveVis(id)} variant={activeVis === id ? 'primary' : 'secondary'} className="capitalize">
@@ -139,7 +139,7 @@ const PreprocessPage = () => {
                   <YAxis stroke="#9CA3AF" />
                   <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4A5568' }} />
                   <Legend />
-                  <Bar dataKey="count" name={`Frequency of ${visColumn1.replace(/_/g, ' ')}`} fill="#2DD4BF" />
+                  <Bar dataKey="count" name={`Frekuensi dari ${visColumn1.replace(/_/g, ' ')}`} fill="#2DD4BF" />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -160,7 +160,7 @@ const PreprocessPage = () => {
             )}
             {activeVis === 'heatmap' && (
               <div className="flex items-center justify-center h-full text-gray-500">
-                <p>Heatmap visualization is under construction.</p>
+                <p>Visualisasi Peta Panas sedang dalam pengembangan.</p>
               </div>
             )}
           </div>
