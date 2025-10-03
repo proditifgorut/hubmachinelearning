@@ -1,0 +1,138 @@
+import React, { useState, useMemo } from 'react';
+import { algorithms } from '../data/algorithms';
+import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
+import Select from '../components/ui/Select';
+import Input from '../components/ui/Input';
+import Checkbox from '../components/ui/Checkbox';
+import { BrainCircuit, CheckCircle, Settings } from 'lucide-react';
+
+const AlgorithmCard = ({ algorithm, onSelect, isSelected }) => (
+  <div
+    onClick={onSelect}
+    className={`cursor-pointer rounded-xl p-4 border-2 transition-all duration-200 h-full flex flex-col ${
+      isSelected
+        ? 'bg-cyan-500/10 border-cyan-500'
+        : 'bg-gray-800/50 border-gray-700 hover:border-gray-600'
+    }`}
+  >
+    <div className="flex justify-between items-start">
+      <h3 className="font-bold text-lg text-white">{algorithm.name}</h3>
+      {isSelected && <CheckCircle className="h-6 w-6 text-cyan-400 flex-shrink-0" />}
+    </div>
+    <p className="text-gray-400 text-sm mt-2 flex-grow">{algorithm.description}</p>
+  </div>
+);
+
+const ParameterInput = ({ param, value, onChange }) => {
+  const handleChange = (e) => {
+    const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    onChange(param.name, val);
+  };
+  
+  switch (param.type) {
+    case 'number':
+      return <Input type="number" value={value} onChange={handleChange} placeholder={param.placeholder} step={param.step} />;
+    case 'select':
+      return (
+        <Select value={value} onChange={handleChange}>
+          {param.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+        </Select>
+      );
+    case 'boolean':
+      return <Checkbox label={param.label} checked={!!value} onChange={handleChange} />;
+    default:
+      return <Input type="text" value={value} onChange={handleChange} placeholder={param.placeholder} />;
+  }
+};
+
+const AlgorithmPage = () => {
+  const [activeType, setActiveType] = useState('Supervised');
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
+  const [parameters, setParameters] = useState({});
+
+  const filteredAlgorithms = useMemo(() => {
+    return algorithms.filter(alg => alg.type === activeType);
+  }, [activeType]);
+
+  const handleSelectAlgorithm = (algorithm) => {
+    setSelectedAlgorithm(algorithm);
+    const initialParams = {};
+    algorithm.parameters.forEach(param => {
+      initialParams[param.name] = param.defaultValue;
+    });
+    setParameters(initialParams);
+  };
+
+  const handleParameterChange = (name, value) => {
+    setParameters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveConfig = () => {
+    alert(`Configuration saved for ${selectedAlgorithm.name}:\n${JSON.stringify(parameters, null, 2)}`);
+  };
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-6 flex items-center">
+        <BrainCircuit className="mr-3 text-cyan-400" />
+        Algorithm Selection
+      </h1>
+
+      <Card className="mb-8">
+        <div className="flex border-b border-gray-700">
+          <button
+            onClick={() => setActiveType('Supervised')}
+            className={`px-4 py-2 text-lg font-medium transition-colors ${activeType === 'Supervised' ? 'text-cyan-400 border-b-2 border-cyan-400' : 'text-gray-400 hover:text-white'}`}
+          >
+            Supervised
+          </button>
+          <button
+            onClick={() => setActiveType('Unsupervised')}
+            className={`px-4 py-2 text-lg font-medium transition-colors ${activeType === 'Unsupervised' ? 'text-cyan-400 border-b-2 border-cyan-400' : 'text-gray-400 hover:text-white'}`}
+          >
+            Unsupervised
+          </button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          {filteredAlgorithms.map(alg => (
+            <AlgorithmCard
+              key={alg.name}
+              algorithm={alg}
+              onSelect={() => handleSelectAlgorithm(alg)}
+              isSelected={selectedAlgorithm?.name === alg.name}
+            />
+          ))}
+        </div>
+      </Card>
+
+      {selectedAlgorithm && (
+        <Card>
+          <h2 className="text-2xl font-semibold text-white mb-4 flex items-center">
+            <Settings className="mr-3 text-cyan-400"/>
+            Parameters for {selectedAlgorithm.name}
+          </h2>
+          <div className="space-y-4">
+            {selectedAlgorithm.parameters.map(param => (
+              <div key={param.name} className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+                {param.type !== 'boolean' && <label className="text-gray-300 font-medium">{param.label}</label>}
+                <ParameterInput
+                  param={param}
+                  value={parameters[param.name]}
+                  onChange={handleParameterChange}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 border-t border-gray-700 pt-6 flex justify-end">
+            <Button onClick={handleSaveConfig}>
+              Save Configuration
+            </Button>
+          </div>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+export default AlgorithmPage;

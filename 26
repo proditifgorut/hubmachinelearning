@@ -1,0 +1,78 @@
+export const algorithms = [
+  // Supervised Learning
+  {
+    name: "Linear Regression",
+    type: "Supervised",
+    description: "Predicts a continuous value by fitting a linear equation to observed data.",
+    parameters: [
+      { name: 'fit_intercept', label: 'Fit Intercept', type: 'boolean', defaultValue: true },
+    ],
+  },
+  {
+    name: "Logistic Regression",
+    type: "Supervised",
+    description: "A classification algorithm used to predict a binary outcome (e.g., yes/no, true/false).",
+    parameters: [
+      { name: 'C', label: 'Regularization (C)', type: 'number', defaultValue: 1.0, step: 0.1 },
+      { name: 'solver', label: 'Solver', type: 'select', options: ['lbfgs', 'liblinear', 'sag', 'saga'], defaultValue: 'lbfgs' },
+    ],
+  },
+  {
+    name: "K-Nearest Neighbors",
+    type: "Supervised",
+    description: "Classifies a data point based on the majority class of its 'k' nearest neighbors.",
+    parameters: [
+      { name: 'n_neighbors', label: 'N Neighbors (k)', type: 'number', defaultValue: 5, step: 1 },
+      { name: 'weights', label: 'Weight Function', type: 'select', options: ['uniform', 'distance'], defaultValue: 'uniform' },
+    ],
+  },
+  {
+    name: "Decision Tree",
+    type: "Supervised",
+    description: "A tree-like model of decisions and their possible consequences, used for classification and regression.",
+    parameters: [
+      { name: 'criterion', label: 'Criterion', type: 'select', options: ['gini', 'entropy'], defaultValue: 'gini' },
+      { name: 'max_depth', label: 'Max Depth', type: 'number', defaultValue: null, placeholder: 'None' },
+    ],
+  },
+  {
+    name: "Random Forest",
+    type: "Supervised",
+    description: "An ensemble method that fits a number of decision tree classifiers on various sub-samples of the dataset.",
+    parameters: [
+      { name: 'n_estimators', label: 'Number of Estimators', type: 'number', defaultValue: 100, step: 10 },
+      { name: 'max_depth', label: 'Max Depth', type: 'number', defaultValue: null, placeholder: 'None' },
+      { name: 'criterion', label: 'Criterion', type: 'select', options: ['gini', 'entropy'], defaultValue: 'gini' },
+    ],
+  },
+
+  // Unsupervised Learning
+  {
+    name: "K-Means Clustering",
+    type: "Unsupervised",
+    description: "Partitions n observations into k clusters in which each observation belongs to the cluster with the nearest mean.",
+    parameters: [
+      { name: 'n_clusters', label: 'Number of Clusters (k)', type: 'number', defaultValue: 3, step: 1 },
+      { name: 'init', label: 'Initialization Method', type: 'select', options: ['k-means++', 'random'], defaultValue: 'k-means++' },
+      { name: 'n_init', label: 'Number of Initializations', type: 'number', defaultValue: 10, step: 1 },
+    ],
+  },
+  {
+    name: "Hierarchical Clustering",
+    type: "Unsupervised",
+    description: "Builds a hierarchy of clusters, either agglomerative (bottom-up) or divisive (top-down).",
+    parameters: [
+      { name: 'n_clusters', label: 'Number of Clusters', type: 'number', defaultValue: 2, step: 1 },
+      { name: 'linkage', label: 'Linkage Criteria', type: 'select', options: ['ward', 'complete', 'average', 'single'], defaultValue: 'ward' },
+    ],
+  },
+  {
+    name: "Association Rule Mining",
+    type: "Unsupervised",
+    description: "Discovers interesting relations between variables in large databases (e.g., market basket analysis).",
+    parameters: [
+      { name: 'min_support', label: 'Minimum Support', type: 'number', defaultValue: 0.5, step: 0.05 },
+      { name: 'min_confidence', label: 'Minimum Confidence', type: 'number', defaultValue: 0.7, step: 0.05 },
+    ],
+  },
+];

@@ -4,6 +4,8 @@ import LandingPage from './pages/LandingPage';
 import DashboardLayout from './components/layout/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import UploadPage from './pages/UploadPage';
+import PreprocessPage from './pages/PreprocessPage';
+import AlgorithmPage from './pages/AlgorithmPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 
 function App() {
@@ -13,8 +15,8 @@ function App() {
             <Route path="/dashboard" element={<DashboardLayout />}>
                 <Route index element={<DashboardPage />} />
                 <Route path="upload" element={<UploadPage />} />
-                <Route path="preprocess" element={<PlaceholderPage title="Preprocessing & Visualization" />} />
-                <Route path="algorithms" element={<PlaceholderPage title="Algorithm Selection" />} />
+                <Route path="preprocess" element={<PreprocessPage />} />
+                <Route path="algorithms" element={<AlgorithmPage />} />
                 <Route path="training" element={<PlaceholderPage title="Training & Evaluation" />} />
                 <Route path="results" element={<PlaceholderPage title="Result Visualization" />} />
                 <Route path="cases" element={<PlaceholderPage title="Study Cases" />} />

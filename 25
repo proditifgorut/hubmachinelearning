@@ -1,0 +1,173 @@
+import React, { useState, useMemo } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ScatterChart, Scatter, ZAxis } from 'recharts';
+import { availableDatasets } from '../data/mockData';
+import Card from '../components/ui/Card';
+import DataTable from '../components/ui/DataTable';
+import Select from '../components/ui/Select';
+import Button from '../components/ui/Button';
+import Checkbox from '../components/ui/Checkbox';
+import { SlidersHorizontal, BarChart2, Dot, DraftingCompass } from 'lucide-react';
+
+// Helper to calculate histogram data from a dataset column
+const getHistogramData = (data, column, bins = 10) => {
+  if (!data || data.length === 0 || !column) return [];
+  const values = data.map(d => d[column]).filter(v => typeof v === 'number');
+  if (values.length === 0) return [];
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  if (min === max) return [{ name: `${min.toFixed(1)}`, count: values.length }];
+  
+  const binSize = (max - min) / bins;
+  const histogram = Array.from({ length: bins }, (_, i) => {
+    const binStart = min + i * binSize;
+    const binEnd = binStart + binSize;
+    return { name: `${binStart.toFixed(1)}-${binEnd.toFixed(1)}`, count: 0, start: binStart, end: binEnd };
+  });
+
+  if (histogram[bins - 1].end < max) histogram[bins - 1].end = max;
+
+  for (const value of values) {
+    for (let i = 0; i < bins; i++) {
+      if (value >= histogram[i].start && (value < histogram[i].end || (i === bins - 1 && value <= histogram[i].end))) {
+        histogram[i].count++;
+        break;
+      }
+    }
+  }
+  return histogram;
+};
+
+const PreprocessPage = () => {
+  const [activeDataset, setActiveDataset] = useState(availableDatasets[0]);
+  const [activeVis, setActiveVis] = useState('histogram');
+  const [visColumn1, setVisColumn1] = useState('sepal_length');
+  const [visColumn2, setVisColumn2] = useState('sepal_width');
+
+  const numericColumns = useMemo(() => 
+    activeDataset.data.length > 0 
+      ? Object.keys(activeDataset.data[0]).filter(key => typeof activeDataset.data[0][key] === 'number')
+      : [],
+    [activeDataset]
+  );
+
+  const chartData = useMemo(() => {
+    if (activeVis === 'histogram') {
+      return getHistogramData(activeDataset.data, visColumn1);
+    }
+    return activeDataset.data;
+  }, [activeDataset.data, activeVis, visColumn1]);
+
+  const handleApplyPreprocessing = () => {
+    alert('This is a UI demonstration. In a real application, this would send the selected options to the backend to process the data.');
+  };
+
+  const visOptions = [
+    { id: 'histogram', label: 'Histogram', icon: BarChart2 },
+    { id: 'scatter', label: 'Scatter Plot', icon: Dot },
+    { id: 'heatmap', label: 'Heatmap', icon: DraftingCompass },
+  ];
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-6">Preprocessing & Visualization</h1>
+      <div className="space-y-8">
+        <Card>
+          <h2 className="text-xl font-semibold text-white mb-4">Select Dataset</h2>
+          <Select value={activeDataset.name} onChange={(e) => setActiveDataset(availableDatasets.find(d => d.name === e.target.value))}>
+            {availableDatasets.map(d => <option key={d.name}>{d.name}</option>)}
+          </Select>
+        </Card>
+
+        <Card>
+          <h2 className="text-xl font-semibold text-white mb-4">Data Preview</h2>
+          <DataTable data={activeDataset.data} />
+        </Card>
+
+        <Card>
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><SlidersHorizontal className="mr-3 text-cyan-400"/>Preprocessing Options</h2>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Checkbox name="missing_values" label="Handle Missing Values" />
+                <Select className="mt-2" disabled><option>Drop Rows</option></Select>
+              </div>
+              <div>
+                <Checkbox name="feature_scaling" label="Feature Scaling" />
+                <Select className="mt-2" disabled><option>Standard Scaler</option></Select>
+              </div>
+            </div>
+            <div>
+              <Checkbox name="encoding" label="Encode Categorical Features" />
+              <Select className="mt-2" disabled><option>One-Hot Encoding</option></Select>
+            </div>
+          </div>
+          <div className="mt-6 border-t border-gray-700 pt-6 flex justify-end">
+            <Button onClick={handleApplyPreprocessing}>Apply Preprocessing</Button>
+          </div>
+        </Card>
+
+        <Card>
+          <h2 className="text-xl font-semibold text-white mb-4">Data Visualization</h2>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {visOptions.map(({ id, label, icon: Icon }) => (
+              <Button key={id} onClick={() => setActiveVis(id)} variant={activeVis === id ? 'primary' : 'secondary'} className="capitalize">
+                <Icon size={16} className="mr-2" /> {label}
+              </Button>
+            ))}
+          </div>
+
+          {activeVis !== 'heatmap' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <Select value={visColumn1} onChange={(e) => setVisColumn1(e.target.value)}>
+                {numericColumns.map(col => <option key={col} value={col}>{col.replace(/_/g, ' ')}</option>)}
+              </Select>
+              {activeVis === 'scatter' && (
+                <Select value={visColumn2} onChange={(e) => setVisColumn2(e.target.value)}>
+                  {numericColumns.map(col => <option key={col} value={col}>{col.replace(/_/g, ' ')}</option>)}
+                </Select>
+              )}
+            </div>
+          )}
+
+          <div className="w-full h-96">
+            {activeVis === 'histogram' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" />
+                  <XAxis dataKey="name" stroke="#9CA3AF" />
+                  <YAxis stroke="#9CA3AF" />
+                  <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4A5568' }} />
+                  <Legend />
+                  <Bar dataKey="count" name={`Frequency of ${visColumn1.replace(/_/g, ' ')}`} fill="#2DD4BF" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+            {activeVis === 'scatter' && (
+              <ResponsiveContainer width="100%" height="100%">
+                <ScatterChart margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" />
+                  <XAxis type="number" dataKey={visColumn1} name={visColumn1} stroke="#9CA3AF" />
+                  <YAxis type="number" dataKey={visColumn2} name={visColumn2} stroke="#9CA3AF" />
+                  <ZAxis dataKey="species" name="species" />
+                  <Tooltip cursor={{ strokeDasharray: '3 3' }} contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4A5568' }} />
+                  <Legend />
+                  <Scatter name="Setosa" data={activeDataset.data.filter(d=>d.species==='setosa')} fill="#8884d8" />
+                  <Scatter name="Versicolor" data={activeDataset.data.filter(d=>d.species==='versicolor')} fill="#82ca9d" />
+                  <Scatter name="Virginica" data={activeDataset.data.filter(d=>d.species==='virginica')} fill="#ffc658" />
+                </ScatterChart>
+              </ResponsiveContainer>
+            )}
+            {activeVis === 'heatmap' && (
+              <div className="flex items-center justify-center h-full text-gray-500">
+                <p>Heatmap visualization is under construction.</p>
+              </div>
+            )}
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default PreprocessPage;
