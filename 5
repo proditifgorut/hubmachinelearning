@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage';
 import UploadPage from './pages/UploadPage';
 import PreprocessPage from './pages/PreprocessPage';
 import AlgorithmPage from './pages/AlgorithmPage';
+import TrainingPage from './pages/TrainingPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
                 <Route path="upload" element={<UploadPage />} />
                 <Route path="preprocess" element={<PreprocessPage />} />
                 <Route path="algorithms" element={<AlgorithmPage />} />
-                <Route path="training" element={<PlaceholderPage title="Training & Evaluation" />} />
+                <Route path="training" element={<TrainingPage />} />
                 <Route path="results" element={<PlaceholderPage title="Result Visualization" />} />
                 <Route path="cases" element={<PlaceholderPage title="Study Cases" />} />
             </Route>

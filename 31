@@ -1,0 +1,140 @@
+import React, { useState, useMemo } from 'react';
+import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
+import Select from '../components/ui/Select';
+import Input from '../components/ui/Input';
+import MetricsCard from '../components/ui/MetricsCard';
+import ConfusionMatrix from '../components/ui/ConfusionMatrix';
+import { availableDatasets } from '../data/mockData';
+import { algorithms } from '../data/algorithms';
+import { Play, Settings, BarChart3, Loader2 } from 'lucide-react';
+
+const mockResults = {
+  classification: {
+    metrics: {
+      Accuracy: '96.67%',
+      Precision: '96.77%',
+      Recall: '96.67%',
+      'F1-Score': '96.67%',
+    },
+    confusionMatrix: {
+      labels: ['Setosa', 'Versicolor', 'Virginica'],
+      matrix: [
+        [10, 0, 0],
+        [0, 9, 1],
+        [0, 0, 10],
+      ],
+    },
+  },
+  regression: {
+    metrics: {
+      'R-squared': '0.92',
+      'Mean Absolute Error': '0.41',
+      'Mean Squared Error': '0.25',
+      'Root Mean Squared Error': '0.50',
+    },
+    confusionMatrix: null,
+  },
+};
+
+const TrainingPage = () => {
+  const [datasetName, setDatasetName] = useState(availableDatasets[0].name);
+  const [algorithmName, setAlgorithmName] = useState(algorithms[0].name);
+  const [splitRatio, setSplitRatio] = useState(80);
+  const [isLoading, setIsLoading] = useState(false);
+  const [results, setResults] = useState(null);
+
+  const selectedAlgorithm = useMemo(() => algorithms.find(a => a.name === algorithmName), [algorithmName]);
+
+  const handleTrain = () => {
+    setIsLoading(true);
+    setResults(null);
+    setTimeout(() => {
+      const resultType = selectedAlgorithm.type === 'Supervised' && ['Logistic Regression', 'K-Nearest Neighbors', 'Decision Tree', 'Random Forest'].includes(selectedAlgorithm.name) 
+        ? 'classification' 
+        : 'regression';
+      setResults(mockResults[resultType]);
+      setIsLoading(false);
+    }, 2000);
+  };
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-6 flex items-center">
+        <Play className="mr-3 text-cyan-400" />
+        Training & Evaluation
+      </h1>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1 space-y-8">
+          <Card>
+            <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
+              <Settings className="mr-3 text-cyan-400" />
+              Configuration
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Dataset</label>
+                <Select value={datasetName} onChange={(e) => setDatasetName(e.target.value)}>
+                  {availableDatasets.map(d => <option key={d.name}>{d.name}</option>)}
+                </Select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Algorithm</label>
+                <Select value={algorithmName} onChange={(e) => setAlgorithmName(e.target.value)}>
+                  {algorithms.map(a => <option key={a.name}>{a.name}</option>)}
+                </Select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Train/Test Split Ratio (%)</label>
+                <Input type="number" value={splitRatio} onChange={(e) => setSplitRatio(e.target.value)} placeholder="e.g., 80" />
+              </div>
+            </div>
+          </Card>
+          <Button onClick={handleTrain} disabled={isLoading} className="w-full py-3 text-lg">
+            {isLoading ? <Loader2 className="animate-spin mr-2" /> : <Play className="mr-2" />}
+            {isLoading ? 'Training in Progress...' : 'Start Training'}
+          </Button>
+        </div>
+        <div className="lg:col-span-2">
+          <Card className="min-h-full">
+            <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
+              <BarChart3 className="mr-3 text-cyan-400" />
+              Evaluation Results
+            </h2>
+            {isLoading && (
+              <div className="flex flex-col items-center justify-center h-96 text-gray-400">
+                <Loader2 className="h-12 w-12 animate-spin text-cyan-500 mb-4" />
+                <p className="text-lg">Training model, please wait...</p>
+              </div>
+            )}
+            {results && !isLoading && (
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-4">Performance Metrics</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {Object.entries(results.metrics).map(([key, value]) => (
+                      <MetricsCard key={key} title={key} value={value} />
+                    ))}
+                  </div>
+                </div>
+                {results.confusionMatrix && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-4">Confusion Matrix</h3>
+                    <ConfusionMatrix data={results.confusionMatrix} />
+                  </div>
+                )}
+              </div>
+            )}
+            {!results && !isLoading && (
+              <div className="flex items-center justify-center h-96 text-gray-500">
+                <p>Training results will be displayed here.</p>
+              </div>
+            )}
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TrainingPage;

@@ -1,0 +1,63 @@
+import React from 'react';
+
+const ConfusionMatrix = ({ data }) => {
+  if (!data || !data.matrix || !data.labels) {
+    return null;
+  }
+
+  const { matrix, labels } = data;
+  const total = matrix.flat().reduce((sum, val) => sum + val, 0);
+
+  const getColor = (value, isDiagonal) => {
+    if (value === 0) return 'bg-gray-800';
+    const intensity = Math.min(100, (value / (total / matrix.length)) * 100);
+    if (isDiagonal) {
+      return `bg-cyan-500/${Math.max(20, intensity)}`;
+    }
+    return `bg-red-500/${Math.max(20, intensity)}`;
+  };
+
+  return (
+    <div className="flex items-center justify-center">
+      <div className="flex">
+        <div className="flex flex-col justify-around text-sm text-gray-400 font-semibold pr-2 -mt-6">
+          <span className="transform -rotate-90">Predicted</span>
+        </div>
+        <div>
+          <table className="border-collapse">
+            <thead>
+              <tr>
+                <th className="p-2"></th>
+                {labels.map((label, index) => (
+                  <th key={index} className="p-2 text-sm font-semibold text-gray-300">
+                    {label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {matrix.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  <td className="p-2 text-sm font-semibold text-gray-300">{labels[rowIndex]}</td>
+                  {row.map((cell, cellIndex) => (
+                    <td
+                      key={cellIndex}
+                      className={`w-20 h-20 border border-gray-700 text-center text-lg font-bold text-white transition-colors ${getColor(cell, rowIndex === cellIndex)}`}
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="text-center text-sm text-gray-400 font-semibold pt-2">
+            Actual
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ConfusionMatrix;
