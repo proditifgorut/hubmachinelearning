@@ -1,0 +1,26 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import DashboardLayout from './components/layout/DashboardLayout';
+import DashboardPage from './pages/DashboardPage';
+import UploadPage from './pages/UploadPage';
+import PlaceholderPage from './pages/PlaceholderPage';
+
+function App() {
+    return (
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/dashboard" element={<DashboardLayout />}>
+                <Route index element={<DashboardPage />} />
+                <Route path="upload" element={<UploadPage />} />
+                <Route path="preprocess" element={<PlaceholderPage title="Preprocessing & Visualization" />} />
+                <Route path="algorithms" element={<PlaceholderPage title="Algorithm Selection" />} />
+                <Route path="training" element={<PlaceholderPage title="Training & Evaluation" />} />
+                <Route path="results" element={<PlaceholderPage title="Result Visualization" />} />
+                <Route path="cases" element={<PlaceholderPage title="Study Cases" />} />
+            </Route>
+        </Routes>
+    );
+}
+
+export default App;

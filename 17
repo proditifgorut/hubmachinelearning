@@ -1,0 +1,112 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { UploadCloud, BarChart3, AlertTriangle } from "lucide-react";
+
+function UploadPage() {
+  const [file, setFile] = useState(null);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setResult(null);
+    setError(null);
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      setError("Please select a file first.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setResult(res.data);
+      if (res.data.error) {
+        setError(res.data.error);
+        setResult(null);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Failed to connect to the backend. Please ensure the API server is running.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-6">Upload & Train</h1>
+      <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <label htmlFor="file-upload" className="flex-1 cursor-pointer border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-cyan-500 transition-colors">
+            <UploadCloud className="mx-auto h-12 w-12 text-gray-500" />
+            <span className="mt-2 block text-sm font-medium text-gray-300">
+              {file ? file.name : "Click to upload a CSV file"}
+            </span>
+            <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".csv" />
+          </label>
+          <button 
+            onClick={handleUpload} 
+            disabled={isLoading}
+            className="bg-cyan-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-cyan-600 transition-all disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+          >
+            {isLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                <span>Training...</span>
+              </>
+            ) : (
+              <span>Upload & Train</span>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {error && (
+        <div className="bg-red-900/50 border border-red-700 text-red-300 p-4 rounded-lg flex items-center space-x-3">
+          <AlertTriangle className="h-6 w-6" />
+          <p>{error}</p>
+        </div>
+      )}
+
+      {result && !result.error && (
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold text-white mb-4 flex items-center"><BarChart3 className="mr-3 text-cyan-400"/>Model Result</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+              <h3 className="font-semibold text-lg mb-2 text-white">Evaluation Metrics</h3>
+              <pre className="bg-gray-900 p-4 rounded-lg text-sm text-cyan-300 overflow-x-auto">
+                {JSON.stringify({ coef: result.coef, intercept: result.intercept }, null, 2)}
+              </pre>
+            </div>
+            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+              <h3 className="font-semibold text-lg mb-4 text-white">Prediction Visualization</h3>
+              {result.predictions && (
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={result.predictions}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" />
+                    <XAxis dataKey="x" stroke="#9CA3AF" name="Actual Values" />
+                    <YAxis stroke="#9CA3AF" />
+                    <Tooltip contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #4A5568' }} />
+                    <Legend />
+                    <Line type="monotone" dataKey="y_pred" name="Predicted" stroke="#2DD4BF" strokeWidth={2} dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default UploadPage;

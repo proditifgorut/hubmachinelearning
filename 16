@@ -1,0 +1,41 @@
+import React from 'react';
+import { Database, Cpu, TestTube2, BarChartHorizontal } from 'lucide-react';
+
+const StatCard = ({ icon, title, value, description }) => {
+  const Icon = icon;
+  return (
+    <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 flex items-start space-x-4">
+      <div className="bg-gray-700 p-3 rounded-lg">
+        <Icon className="h-6 w-6 text-cyan-400" />
+      </div>
+      <div>
+        <p className="text-sm text-gray-400">{title}</p>
+        <p className="text-2xl font-bold text-white">{value}</p>
+        <p className="text-xs text-gray-500">{description}</p>
+      </div>
+    </div>
+  );
+};
+
+const DashboardPage = () => {
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-2">Welcome Back!</h1>
+      <p className="text-gray-400 mb-8">Here's a summary of your machine learning activities.</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard icon={Database} title="Datasets Analyzed" value="14" description="+2 this week" />
+        <StatCard icon={Cpu} title="Models Trained" value="32" description="Linear Regression is popular" />
+        <StatCard icon={TestTube2} title="Experiments Run" value="128" description="7 active experiments" />
+        <StatCard icon={BarChartHorizontal} title="Avg. Accuracy" value="92.1%" description="Up by 1.5% from last month" />
+      </div>
+
+      <div className="mt-10 bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+        <h2 className="text-xl font-semibold text-white mb-4">Recent Activity</h2>
+        <p className="text-gray-400">Activity feed will be displayed here.</p>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardPage;
