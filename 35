@@ -1,0 +1,25 @@
+import React from 'react';
+import { blogPosts } from '../data/blogPosts';
+import BlogCard from '../components/ui/BlogCard';
+import { BookOpenText } from 'lucide-react';
+
+const BlogPage = () => {
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-6 flex items-center">
+        <BookOpenText className="mr-3 text-cyan-400" />
+        Blog Machine Learning
+      </h1>
+      <p className="text-gray-400 mb-8">
+        Jelajahi artikel mendalam tentang algoritma, konsep, dan studi kasus dalam dunia machine learning.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {blogPosts.map(post => (
+          <BlogCard key={post.slug} post={post} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default BlogPage;

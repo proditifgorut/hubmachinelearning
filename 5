@@ -7,6 +7,8 @@ import UploadPage from './pages/UploadPage';
 import PreprocessPage from './pages/PreprocessPage';
 import AlgorithmPage from './pages/AlgorithmPage';
 import TrainingPage from './pages/TrainingPage';
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 
 function App() {
@@ -19,8 +21,10 @@ function App() {
                 <Route path="preprocess" element={<PreprocessPage />} />
                 <Route path="algorithms" element={<AlgorithmPage />} />
                 <Route path="training" element={<TrainingPage />} />
-                <Route path="results" element={<PlaceholderPage title="Result Visualization" />} />
-                <Route path="cases" element={<PlaceholderPage title="Study Cases" />} />
+                <Route path="results" element={<PlaceholderPage title="Hasil Visualisasi" />} />
+                <Route path="cases" element={<PlaceholderPage title="Studi Kasus" />} />
+                <Route path="blog" element={<BlogPage />} />
+                <Route path="blog/:slug" element={<BlogPostPage />} />
             </Route>
         </Routes>
     );

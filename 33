@@ -1,0 +1,110 @@
+export const blogPosts = [
+  {
+    slug: 'mengenal-jenis-jenis-machine-learning',
+    title: 'Mengenal 4+1 Jenis Utama Machine Learning',
+    summary: 'Dari Supervised hingga Reinforcement Learning, pahami perbedaan, contoh, dan algoritma populer dari setiap paradigma utama dalam machine learning.',
+    author: 'Dualite Alpha',
+    date: '15 Oktober 2025',
+    coverImage: 'https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=1170&auto=format&fit=crop',
+    content: [
+      { type: 'paragraph', text: 'Machine learning dapat diklasifikasikan ke dalam beberapa jenis utama berdasarkan cara algoritma "belajar" dari data. Memahami perbedaan ini adalah kunci untuk memilih pendekatan yang tepat untuk masalah Anda.' },
+      
+      { type: 'heading', level: 2, text: '1. Supervised Learning (Belajar dengan Label)' },
+      { type: 'paragraph', text: 'Ini adalah jenis yang paling umum. Algoritma belajar dari dataset yang telah diberi label, artinya setiap data input sudah memiliki output yang benar. Tujuannya adalah untuk belajar memetakan input ke output.' },
+      { type: 'paragraph', text: '<strong>Contoh:</strong> Prediksi harga rumah (output: harga), klasifikasi email sebagai spam atau bukan spam (output: "spam" atau "bukan spam").' },
+      { type: 'heading', level: 3, text: 'Algoritma Populer:' },
+      { type: 'list', items: [
+        '<strong>Linear & Logistic Regression:</strong> Untuk prediksi nilai kontinu dan klasifikasi.',
+        '<strong>Decision Tree:</strong> Model seperti pohon untuk mengambil keputusan.',
+        '<strong>Random Forest:</strong> Gabungan banyak Decision Tree untuk hasil yang lebih kuat.',
+        '<strong>Support Vector Machine (SVM):</strong> Mencari batas keputusan terbaik antar kelas.',
+        '<strong>k-Nearest Neighbors (k-NN):</strong> Mengklasifikasikan data berdasarkan tetangga terdekatnya.',
+        '<strong>Naive Bayes:</strong> Klasifikasi berdasarkan probabilitas (Teorema Bayes).',
+        '<strong>Gradient Boosting (XGBoost, LightGBM):</strong> Model ansambel yang sangat kuat dan populer.',
+        '<strong>Neural Networks (Jaringan Saraf Tiruan):</strong> Untuk pemodelan hubungan yang kompleks.',
+      ]},
+
+      { type: 'heading', level: 2, text: '2. Unsupervised Learning (Belajar tanpa Label)' },
+      { type: 'paragraph', text: 'Dalam pembelajaran ini, algoritma bekerja dengan data yang tidak memiliki label. Tujuannya adalah untuk menemukan struktur, pola, atau hubungan tersembunyi dalam data.' },
+      { type: 'paragraph', text: '<strong>Contoh:</strong> Segmentasi pelanggan berdasarkan perilaku belanja, pengelompokan berita serupa.' },
+      { type: 'heading', level: 3, text: 'Algoritma Populer:' },
+      { type: 'list', items: [
+        '<strong>K-Means Clustering:</strong> Mempartisi data ke dalam K kelompok (kluster).',
+        '<strong>Hierarchical Clustering:</strong> Membuat struktur kluster berbentuk pohon.',
+        '<strong>DBSCAN:</strong> Mengelompokkan data berdasarkan kepadatan.',
+        '<strong>Principal Component Analysis (PCA):</strong> Mengurangi jumlah variabel (dimensi) dalam data.',
+        '<strong>t-SNE & UMAP:</strong> Untuk visualisasi data berdimensi tinggi.',
+        '<strong>Autoencoders:</strong> Jaringan saraf untuk mempelajari representasi data yang efisien.',
+      ]},
+
+      { type: 'heading', level: 2, text: '3. Semi-Supervised Learning' },
+      { type: 'paragraph', text: 'Ini adalah gabungan dari supervised dan unsupervised learning. Digunakan ketika Anda memiliki sejumlah besar data, tetapi hanya sebagian kecil yang memiliki label. Ini sangat umum dalam skenario dunia nyata di mana pelabelan data mahal.' },
+      { type: 'paragraph', text: '<strong>Contoh:</strong> Klasifikasi jutaan gambar di web, di mana hanya beberapa ribu yang telah dilabeli secara manual.' },
+      { type: 'heading', level: 3, text: 'Pendekatan Populer:' },
+      { type: 'list', items: [
+        '<strong>Pseudo-Labeling:</strong> Model yang dilatih pada data berlabel digunakan untuk memprediksi label untuk data yang tidak berlabel, kemudian data yang "dilabeli sendiri" ini digunakan untuk melatih ulang model.',
+        '<strong>Graph-based Methods:</strong> Membangun grafik untuk menghubungkan titik data dan menyebarkan label.',
+      ]},
+
+      { type: 'heading', level: 2, text: '4. Reinforcement Learning (RL)' },
+      { type: 'paragraph', text: 'Dalam RL, sebuah "agen" belajar untuk membuat keputusan dengan melakukan tindakan dalam suatu "lingkungan" untuk memaksimalkan "hadiah" (reward). Agen belajar dari konsekuensi tindakannya melalui proses coba-coba (trial-and-error).' },
+      { type: 'paragraph', text: '<strong>Contoh:</strong> AI yang belajar bermain catur, mobil otonom yang belajar mengemudi, robot yang belajar berjalan.' },
+      { type: 'heading', level: 3, text: 'Algoritma Populer:' },
+      { type: 'list', items: [
+        '<strong>Q-Learning:</strong> Belajar nilai dari suatu tindakan dalam keadaan tertentu.',
+        '<strong>Deep Q-Network (DQN):</strong> Menggunakan jaringan saraf untuk memperkirakan fungsi Q.',
+        '<strong>Policy Gradient Methods:</strong> Langsung mengoptimalkan kebijakan (policy) agen.',
+        '<strong>Actor-Critic Methods:</strong> Menggabungkan pendekatan berbasis nilai (critic) dan berbasis kebijakan (actor).',
+      ]},
+      
+      { type: 'heading', level: 2, text: 'Bonus: Deep Learning' },
+      { type: 'paragraph', text: 'Deep Learning bukanlah jenis pembelajaran yang terpisah, melainkan sub-bidang dari machine learning yang menggunakan Jaringan Saraf Tiruan dengan banyak lapisan (arsitektur "dalam" atau "deep"). Deep learning telah mencapai kesuksesan luar biasa dalam menangani data yang sangat kompleks dan tidak terstruktur.' },
+      { type: 'paragraph', text: '<strong>Contoh:</strong> Pengenalan wajah, terjemahan bahasa otomatis (NLP), pengenalan suara.' },
+      { type: 'heading', level: 3, text: 'Arsitektur Populer:' },
+      { type: 'list', items: [
+        '<strong>Convolutional Neural Networks (CNN):</strong> Sangat efektif untuk data visual seperti gambar dan video.',
+        '<strong>Recurrent Neural Networks (RNN, LSTM, GRU):</strong> Dirancang untuk data berurutan seperti teks atau data deret waktu.',
+        '<strong>Transformers (BERT, GPT):</strong> Arsitektur canggih yang merevolusi pemrosesan bahasa alami (NLP).',
+        '<strong>Generative Adversarial Networks (GANs):</strong> Dua jaringan saraf yang bersaing untuk menghasilkan data baru yang realistis (misalnya, gambar wajah manusia palsu).',
+      ]},
+    ]
+  },
+  {
+    slug: 'memahami-regresi-linier',
+    title: 'Memahami Regresi Linier: Dari Konsep Hingga Studi Kasus',
+    summary: 'Selami dunia Regresi Linier, salah satu algoritma fundamental dalam machine learning. Pelajari cara kerjanya, rumus matematikanya, dan lihat penerapannya dalam studi kasus nyata.',
+    author: 'Dualite Alpha',
+    date: '14 Oktober 2025',
+    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e28f81?q=80&w=1170&auto=format&fit=crop',
+    content: [
+      { type: 'paragraph', text: 'Regresi Linier adalah salah satu algoritma paling dasar dan banyak digunakan dalam machine learning. Tujuannya adalah untuk memodelkan hubungan antara variabel dependen (target) dan satu atau lebih variabel independen (fitur) dengan menyesuaikan persamaan linier ke data yang diamati.' },
+      { type: 'heading', level: 2, text: 'Bagaimana Cara Kerjanya?' },
+      { type: 'paragraph', text: 'Inti dari Regresi Linier adalah menemukan "garis yang paling pas" (best-fit line) yang melewati titik-titik data Anda. Garis ini kemudian dapat digunakan untuk membuat prediksi. Jika kita memiliki satu variabel independen, ini disebut Regresi Linier Sederhana. Jika lebih dari satu, ini disebut Regresi Linier Berganda.' },
+      { type: 'heading', level: 3, text: 'Rumus Matematika' },
+      { type: 'paragraph', text: 'Untuk Regresi Linier Sederhana, persamaannya adalah:' },
+      { type: 'formula', text: 'Y = β₀ + β₁X + ε' },
+      { type: 'list', items: [
+        '<strong>Y</strong>: Variabel dependen atau target yang ingin kita prediksi.',
+        '<strong>X</strong>: Variabel independen atau fitur yang kita gunakan untuk prediksi.',
+        '<strong>β₁</strong>: Koefisien regresi (slope), yang mewakili perubahan pada Y untuk setiap satu unit perubahan pada X.',
+        '<strong>β₀</strong>: Intersep (intercept), yaitu nilai Y ketika X sama dengan 0.',
+        '<strong>ε</strong>: Galat (error), yaitu selisih antara nilai yang diamati dan nilai yang diprediksi oleh model.'
+      ]},
+      { type: 'paragraph', text: 'Tujuan algoritma adalah menemukan nilai β₀ dan β₁ yang meminimalkan total galat (biasanya menggunakan metode yang disebut Ordinary Least Squares atau OLS).' },
+      { type: 'heading', level: 2, text: 'Studi Kasus: Memprediksi Harga Rumah' },
+      { type: 'paragraph', text: 'Bayangkan kita memiliki dataset harga rumah berdasarkan luasnya. Kita ingin membuat model yang dapat memprediksi harga rumah jika kita mengetahui luasnya.' },
+      { type: 'table', headers: ['Luas (m²)', 'Harga (juta Rp)'], rows: [
+        ['50', '300'],
+        ['70', '450'],
+        ['100', '600'],
+        ['120', '700'],
+        ['150', '900']
+      ]},
+      { type: 'paragraph', text: 'Setelah melatih model Regresi Linier pada data ini, kita mungkin mendapatkan hasil seperti:' },
+      { type: 'formula', text: 'Harga = 45.5 + 5.8 * Luas' },
+      { type: 'paragraph', text: 'Dengan model ini, kita sekarang dapat memprediksi harga rumah baru. Misalnya, untuk rumah dengan luas 110 m², prediksinya adalah:' },
+      { type: 'code', language: 'plaintext', code: 'Harga = 45.5 + 5.8 * 110\nHarga = 45.5 + 638\nHarga = 683.5 juta Rp' },
+      { type: 'paragraph', text: 'Visualisasi dari model ini akan berupa plot sebar dari data asli dengan garis lurus (garis regresi) yang ditarik melaluinya, menunjukkan tren hubungan antara luas dan harga.' }
+    ]
+  }
+];
